@@ -1,9 +1,9 @@
 import React from "react";
-import {OffersBrowse} from "./components/OffersBrowse";
+import {OffersBrowse} from "./components/OffersBrowse/OffersBrowse";
 
 function App() {
   return (
-    <div className="App d-flex flex-column pt-2 pb-2" style={{height: '100vh'}}>
+    <div className="d-flex flex-column pt-2 pb-2 vh-100">
       <OffersBrowse/>
     </div>
   );

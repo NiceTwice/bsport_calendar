@@ -3,7 +3,7 @@ import axios from "axios";
 const DEFAULT_COMPANY_ID = 6;
 
 const token = "8c5ba20bc481c4d2803325833a5cf54771f6ba45";
-axios.defaults.headers.common = {'Authorization': `Bearer ${token}`};
+axios.defaults.headers.common = {'Authorization': `Token ${token}`};
 
 const get = (url, params) => {
   return axios.get(url, {
@@ -31,9 +31,12 @@ export const api = {
     }
   },
   metaActivity: {
-    search: ({company = DEFAULT_COMPANY_ID} = {}) => {
+    search: ({company = DEFAULT_COMPANY_ID, ids, page_size, page} = {}) => {
       return get('https://api.staging.bsport.io/api/v1/meta-activity/', {
-        company
+        company,
+        id__in: ids.join(','),
+        page_size,
+        page
       })
     },
     get: ({id}) => {
@@ -41,9 +44,12 @@ export const api = {
     }
   },
   coach: {
-    search: ({company = DEFAULT_COMPANY_ID} = {}) => {
+    search: ({company = DEFAULT_COMPANY_ID, ids, page_size, page} = {}) => {
       return get('https://api.staging.bsport.io/api/v1/coach/', {
-        company
+        company,
+        id__in: ids.join(','),
+        page_size,
+        page
       })
     },
     get: ({id}) => {
@@ -51,9 +57,12 @@ export const api = {
     }
   },
   establishment: {
-    search: ({company = DEFAULT_COMPANY_ID} = {}) => {
+    search: ({company = DEFAULT_COMPANY_ID, ids, page_size, page} = {}) => {
       return get('https://api.staging.bsport.io/api/v1/establishment/', {
-        company
+        company,
+        id__in: ids.join(','),
+        page_size,
+        page
       })
     },
     get: ({id}) => {
@@ -73,6 +82,16 @@ export const api = {
         offer: offer_id,
         page,
         page_size
+      })
+    }
+  },
+  member: {
+    search: ({offer_id, ids, page, page_size} = {}) => {
+      return get('https://api.staging.bsport.io/api/v1/member/', {
+        offer: offer_id,
+        page,
+        page_size,
+        id__in: ids?.length ? ids.join(',') : undefined
       })
     }
   }

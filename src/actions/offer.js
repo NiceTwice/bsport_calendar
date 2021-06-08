@@ -1,9 +1,8 @@
 import api from "../tools/api";
 import {offerDTOInput} from "../DTO/offer";
-import {fetchCoach} from "./coach";
-import {fetchEstablishment} from "./establishment";
-import {fetchActivity} from "./activity";
-import {fetchBookings} from "./booking";
+import {fetchCoachs} from "./coach";
+import {fetchEstablishments} from "./establishment";
+import {fetchActivities} from "./activity";
 
 export const fetchOffers = async (filters) => {
   const response = await api.offer.search({...filters});
@@ -17,24 +16,29 @@ export const fetchOffers = async (filters) => {
 export const fetchOffersFull = async (filters) => {
   let offers = await fetchOffers(filters);
 
-  offers.results = await Promise.all(offers.results.map(async (r) => {
-    const [activity, coach, establishment, bookings] = await Promise.allSettled([
-      fetchActivity({id: r.activity_id}),
-      fetchCoach({id: r.coach_id}),
-      fetchEstablishment({id: r.establishment_id}),
-      fetchBookings({
-        offer_id: r.id,
-        page_size: r.effectif.length
-      })
-    ])
+  const [activities, establishments, coachs] = await Promise.all([
+    fetchActivities({
+      ids: offers.results.map(i => i.activity_id),
+      page_size: offers.results.length
+    }),
+    fetchEstablishments({
+      ids: offers.results.map(i => i.establishment_id),
+      page_size: offers.results.length
+    }),
+    fetchCoachs({
+      ids: offers.results.map(i => i.coach_id),
+      page_size: offers.results.length
+    })
+  ])
 
-    r.activity = activity.status === 'fulfilled' ? activity.value : null;
-    r.coach = coach.status === 'fulfilled' ? coach.value : null;
-    r.establishment = establishment.status === 'fulfilled' ? establishment.value : null;
-    r.bookings = bookings.status === 'fulfilled' ? bookings.value.results : [];
-
-    return r;
-  }));
+  offers.results = offers.results.map(offer => {
+    return {
+      ...offer,
+      activity: activities.results.find(i => i.id === offer.activity_id),
+      coach: coachs.results.find(i => i.id === offer.coach_id),
+      establishment: establishments.results.find(i => i.id === offer.establishment_id)
+    }
+  });
 
   return offers;
 }

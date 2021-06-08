@@ -1,8 +1,8 @@
 import React, {useCallback, useState} from "react";
-import {DateInput} from "./DateInput";
+import {DateInput} from "../common/DateInput";
 import {Col, Container} from "reactstrap";
-import {useISOState} from "../tools/hooks";
-import {fetchOffersFull} from "../actions/offer";
+import {useISOState} from "../../tools/hooks";
+import {fetchOffersFull} from "../../actions/offer";
 import moment from "moment";
 import InfiniteScroll from "react-infinite-scroller";
 import OfferCard from "./OfferCard";

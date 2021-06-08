@@ -1,6 +1,6 @@
 export function bookingDTOInput(booking){
   return {
     id: booking.id,
-    member: booking.member
+    member_id: booking.member
   }
 }
