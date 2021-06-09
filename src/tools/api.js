@@ -34,7 +34,7 @@ export const api = {
     search: ({company = DEFAULT_COMPANY_ID, ids, page_size, page} = {}) => {
       return get('https://api.staging.bsport.io/api/v1/meta-activity/', {
         company,
-        id__in: ids.join(','),
+        id__in: ids?.length ? ids.join(',') : undefined,
         page_size,
         page
       })
@@ -47,7 +47,7 @@ export const api = {
     search: ({company = DEFAULT_COMPANY_ID, ids, page_size, page} = {}) => {
       return get('https://api.staging.bsport.io/api/v1/coach/', {
         company,
-        id__in: ids.join(','),
+        id__in: !!ids?.length ? ids.join(',') : undefined,
         page_size,
         page
       })
@@ -60,7 +60,7 @@ export const api = {
     search: ({company = DEFAULT_COMPANY_ID, ids, page_size, page} = {}) => {
       return get('https://api.staging.bsport.io/api/v1/establishment/', {
         company,
-        id__in: ids.join(','),
+        id__in: !!ids?.length ? ids.join(',') : undefined,
         page_size,
         page
       })
@@ -86,12 +86,13 @@ export const api = {
     }
   },
   member: {
-    search: ({offer_id, ids, page, page_size} = {}) => {
+    search: ({company = DEFAULT_COMPANY_ID, offer_id, ids, page, page_size} = {}) => {
       return get('https://api.staging.bsport.io/api/v1/member/', {
+        company,
         offer: offer_id,
         page,
         page_size,
-        id__in: ids?.length ? ids.join(',') : undefined
+        id__in: !!ids?.length ? ids.join(',') : undefined
       })
     }
   }

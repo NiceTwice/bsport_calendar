@@ -51,7 +51,7 @@ export const OfferCard = ({offer}) => {
           Level: <span title={offer.value}>{offer.level}</span>
         </OverflowEllipsisText>
         <OverflowEllipsisText>
-          Slots: {offer.validated_booking_count}/{offer.effectif}
+          Reserved slots: {offer.validated_booking_count}/{offer.effectif}
         </OverflowEllipsisText>
         {details &&
         <OfferDetailsModal offer={offer} close={toggleDetails}/>}

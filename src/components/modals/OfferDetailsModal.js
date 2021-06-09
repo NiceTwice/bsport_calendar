@@ -10,6 +10,7 @@ export const OfferDetailsModal = ({offer, close}) => {
   useEffect(() => {
     (async () => {
       let members = await fetchMembers({offer_id: offer.id, page_size: offer.effectif});
+
       setMembers(members.results);
     })()
   }, []);
