@@ -12,7 +12,8 @@ const OverflowEllipsisText = styled.div`
 `;
 
 export const OfferCard = ({offer}) => {
-  const date = useMemo(() => `${moment(offer.date_start).format('DD/MM/YYYY HH:mm')} - ${moment(offer.date_start).add(offer.duration, 'm').format('HH:mm')}`, [offer])
+  const date = useMemo(() => `${moment(offer.date_start).format('DD/MM/YYYY HH:mm')} - ${moment(offer.date_start).add(offer.duration, 'm').format('HH:mm')}`
+    , [offer.date_start, offer.duration]);
   const [details, toggleShowDetails] = useState(false);
 
   const toggleDetails = useCallback(() => {

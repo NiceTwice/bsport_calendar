@@ -2,7 +2,7 @@ import React, {useMemo} from "react";
 import "flatpickr/dist/themes/light.css";
 import Flatpickr from "react-flatpickr";
 
-export const DateInput = ({value = new Date(), onChange}) => {
+export const DateInput = ({value, onChange}) => {
   const options = useMemo(() => ({
     mode: "range",
     dateFormat: "d-m-Y"
